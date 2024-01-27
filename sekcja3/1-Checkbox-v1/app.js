@@ -1,3 +1,28 @@
+class App extends React.Component {
+  state = {
+    active: true,
+  };
+
+  handleClick = () => {
+    this.setState({
+      active: !this.state.active,
+    });
+  };
+
+  render() {
+    return (
+      <>
+        <SwitchButton active={this.state.active} click={this.handleClick} />
+        {this.state.active && <Counter />}
+      </>
+    );
+  }
+}
+
+const SwitchButton = (props) => (
+  <button onClick={props.click}>{props.active ? "wyłącz" : "włącz"}</button>
+);
+
 class Counter extends React.Component {
   state = {
     time: this.getTime(),
@@ -33,10 +58,10 @@ class Counter extends React.Component {
     const { hours: h, minutes: m, seconds: s } = this.state.time;
     return (
       <div>
-        {h}:{m}:{s}
+        {h > 9 ? h : `0${h}`}:{m > 9 ? m : `0${m}`}:{s > 9 ? s : `0${s}`}
       </div>
     );
   }
 }
 
-ReactDOM.render(<Counter />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
