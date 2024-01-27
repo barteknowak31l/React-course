@@ -1,36 +1,25 @@
-class ShoppingList extends React.Component {
+// po kliknięciu przycisku dodawana jest litera do tekstu
+
+class App extends React.Component {
   state = {
-    items1: "ogórki",
-    items2: "sok",
-    items3: "dżem",
+    text: "",
+  };
+
+  buttonHandle = () => {
+    const letter = "a";
+    this.setState({
+      text: this.state.text + letter,
+    });
   };
 
   render() {
     return (
       <>
-        <h1>Lista zakupów</h1>
-        <ul>
-          <ItemList name={this.state.items1} example="4" />
-          <ItemList name={this.state.items2} />
-          <ItemList name={this.state.items3} />
-        </ul>
+        <button onClick={this.buttonHandle}>Dodaj A</button>
+        <h1>{this.state.text}</h1>
       </>
     );
   }
 }
 
-// const ItemList = (props) => {
-//   return <li>{props.name}</li>;
-// };
-
-class ItemList extends React.Component {
-  render() {
-    return (
-      <li>
-        {this.props.name} - {this.props.example}
-      </li>
-    );
-  }
-}
-
-ReactDOM.render(<ShoppingList />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
