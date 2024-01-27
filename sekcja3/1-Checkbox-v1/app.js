@@ -6,18 +6,6 @@ const ValidationMessage = (props) => {
   return <p>{txt}</p>;
 };
 
-const displayMessage = (isConfirmed, isFormSubmitted) => {
-  if (isFormSubmitted) {
-    if (isConfirmed) {
-      return <ValidationMessage txt="Możesz obejrzeć film. Zapraszamy" />;
-    } else {
-      return <ValidationMessage txt="Nie możesz obejrzeć tego filmu." />;
-    }
-  } else {
-    return null;
-  }
-};
-
 class TicketShop extends React.Component {
   state = {
     isConfirmed: false,
@@ -39,27 +27,45 @@ class TicketShop extends React.Component {
     }
   };
 
+  displayMessage = () => {
+    if (this.state.isFormSubmitted) {
+      if (this.state.isConfirmed) {
+        return <ValidationMessage txt="Możesz obejrzeć film. Zapraszamy" />;
+      } else {
+        return <ValidationMessage txt="Nie możesz obejrzeć tego filmu." />;
+      }
+    } else {
+      return null;
+    }
+  };
+
   render() {
     const { isConfirmed, isFormSubmitted } = this.state;
 
     return (
       <>
         <h1>Kub bilet na horror roku!</h1>
-        <form onSubmit={this.handleFormSubmit}>
-          <input
-            type="checkbox"
-            onChange={this.handleCheckboxChange}
-            id="age"
-            checked={this.state.isConfirmed}
-          />
-          <label htmlFor="age">Mam co najmniej 16 lat</label>
-          <br />
-          <button type="submit">Kup Bilet</button>
-          {displayMessage(isConfirmed, isFormSubmitted)}
-        </form>
+        <OrderForm
+          change={this.handleCheckboxChange}
+          submit={this.handleFormSubmit}
+          checked={this.state.isConfirmed}
+        />
+        {this.displayMessage()}
       </>
     );
   }
 }
+
+const OrderForm = (props) => {
+  const { submit, checked, change } = props;
+  return (
+    <form onSubmit={submit}>
+      <input type="checkbox" onChange={change} id="age" checked={checked} />
+      <label htmlFor="age">Mam co najmniej 16 lat</label>
+      <br />
+      <button type="submit">Kup Bilet</button>
+    </form>
+  );
+};
 
 ReactDOM.render(<TicketShop />, document.getElementById("root"));
