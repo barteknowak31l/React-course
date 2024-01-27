@@ -1,39 +1,39 @@
 class Counter extends React.Component {
   state = {
-    result: 1,
-    ratio: 2,
+    time: this.getTime(),
   };
 
-  handleClick = () => {
-    this.setState((prevState) => ({
-      result: prevState.result * prevState.ratio,
-    }));
+  intervalIndex = "";
+
+  getTime() {
+    const currentTime = new Date();
+    return {
+      hours: currentTime.getHours(),
+      minutes: currentTime.getMinutes(),
+      seconds: currentTime.getSeconds(),
+    };
+  }
+
+  setTime = () => {
+    const time = this.getTime();
+    this.setState({
+      time: time,
+    });
   };
 
-  componentDidUpdate() {
-    if (this.state.result > 1000 && this.state.ratio === 2) {
-      this.setState({
-        ratio: 0.5,
-      });
-    } else if (this.state.result < 1 && this.state.ratio === 0.5) {
-      this.setState({
-        ratio: 2,
-      });
-    }
+  componentWillUnmount() {
+    clearInterval(this.intervalIndex);
+  }
+
+  componentDidMount() {
+    this.intervalIndex = setInterval(() => this.setTime(), 1000);
   }
 
   render() {
+    const { hours: h, minutes: m, seconds: s } = this.state.time;
     return (
       <div>
-        <p>
-          Kalkulator mnoży przez dwa, jeśli suma jest mniejsza niż 1000. Po
-          przekroczeniu 1000 kalkulator mnoży przez 0.5 aż osiągnie sumę
-          mniejszą niż 1. Wtedy ponownie zaczyna mnożyć przez 2.
-        </p>
-        <button
-          onClick={this.handleClick}
-        >{`Pomnóż przez ${this.state.ratio}`}</button>
-        <h1>Wynik: {this.state.result}</h1>
+        {h}:{m}:{s}
       </div>
     );
   }
