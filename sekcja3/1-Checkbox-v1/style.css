@@ -1,20 +1,26 @@
-deiv{
-    line-height: 50px;
-    font-size: 30px;
-    font-family: arial;
+html{
+    font-size: 20px;
+    font-family: sans-serif;
 }
 
-button{
-    background-color: #fff;
-    border: 2px solid black;
-    font-weight: bold;
-    font-size: 30px;
-    width: 50px;
-    height: 50px;
+li{
+    line-height: 160%;
+    padding: 20px 10px;
     cursor: pointer;
-    outline: none;
-
 }
-button:disabled{
-    opacity: 0.3;
+
+li:nth-child(even){
+    background-color: #eee;
+}
+
+li:nth-child(odd){
+    background-color: #ccc;
+}
+
+.enabled{
+    font-weight: bold;
+}
+
+.disabled{
+    color: gray;
 }
