@@ -1,34 +1,32 @@
-class App extends React.Component {
-  state = {
-    value: "",
-  };
+class Message extends React.Component {
+  constructor(props) {
+    super(props);
 
-  handleInputChange = (e) => {
-    this.setState({
-      value: e.target.value,
-    });
-  };
+    this.state = {
+      messageIsActive: false,
+    };
 
-  handleClick = () => {
+    this.handleMessageButton = this.handleMessageButton.bind(this);
+  }
+
+  handleMessageButton() {
     this.setState({
-      value: "",
+      messageIsActive: !this.state.messageIsActive,
     });
-  };
+  }
 
   render() {
+    const text = "Lorem ipsum";
     return (
       <>
-        <input
-          value={this.state.value}
-          placeholder="wpisz..."
-          onChange={this.handleInputChange}
-          type="text"
-        ></input>
-        <button onClick={this.handleClick}>Reset</button>
-        <h1 className="title">{this.state.value.toUpperCase()}</h1>
+        <button onClick={this.handleMessageButton}>
+          {this.state.messageIsActive ? "Ukryj" : "Pokaż"}
+        </button>
+        {this.state.messageIsActive ? <p>{text}</p> : null}
+        {this.state.messageIsActive && <p>{text}</p>}
       </>
     );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<Message />, document.getElementById("root"));
