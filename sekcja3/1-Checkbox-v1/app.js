@@ -1,3 +1,5 @@
+// rozszerzenie poprzedniego projektu o przycisk 'kup'
+
 class App extends React.Component {
   state = {
     availbleProducts: 7,
@@ -13,6 +15,13 @@ class App extends React.Component {
   addToCart = () => {
     this.setState({
       shoppingCart: this.state.shoppingCart + 1,
+    });
+  };
+
+  handleBuy = () => {
+    this.setState({
+      shoppingCart: 0,
+      availbleProducts: this.state.availbleProducts - this.state.shoppingCart,
     });
   };
 
@@ -32,6 +41,9 @@ class App extends React.Component {
         >
           +
         </button>
+        {this.state.shoppingCart > 0 && (
+          <button onClick={this.handleBuy}>Kup</button>
+        )}
       </>
     );
   }
