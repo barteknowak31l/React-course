@@ -33,24 +33,24 @@ class App extends React.Component {
           }
         : {};
 
+    const { shoppingCart, availbleProducts } = this.state;
+
     return (
       <>
         <button
-          disabled={this.state.shoppingCart ? false : true}
+          disabled={shoppingCart ? false : true}
           onClick={this.handleRemoveFromCart}
         >
           -
         </button>
-        <span style={style}> {this.state.shoppingCart} </span>
+        <span style={style}> {shoppingCart} </span>
         <button
-          disabled={this.state.shoppingCart >= this.state.availbleProducts}
+          disabled={shoppingCart >= availbleProducts}
           onClick={this.addToCart}
         >
           +
         </button>
-        {this.state.shoppingCart > 0 && (
-          <button onClick={this.handleBuy}>Kup</button>
-        )}
+        {shoppingCart > 0 && <button onClick={this.handleBuy}>Kup</button>}
       </>
     );
   }
