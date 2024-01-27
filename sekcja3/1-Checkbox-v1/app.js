@@ -7,29 +7,17 @@ class Form extends React.Component {
     numerOfVisits: 0,
   };
 
-  handleOnCityChange = (e) => {
-    this.setState({
-      city: e.target.value,
-    });
+  handleChange = (e) => {
+    if (e.target.type === "checkbox") {
+      this.setState({
+        [e.target.name]: e.target.checked,
+      });
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value,
+      });
+    }
   };
-
-  handleOnTextChange = (e) => {
-    this.setState({
-      text: e.target.value,
-    });
-  };
-
-  handleIsLoved = (e) => {
-    this.setState({
-      isLoved: e.target.checked,
-    });
-  };
-
-  onVisitNumberChanged(e) {
-    this.setState({
-      numerOfVisits: e.target.value,
-    });
-  }
 
   render() {
     return (
@@ -38,8 +26,9 @@ class Form extends React.Component {
           <label>
             Podaj miasto
             <input
+              name="city"
               type="text"
-              onChange={this.handleOnCityChange}
+              onChange={this.handleChange}
               value={this.state.city}
             ></input>
           </label>
@@ -47,25 +36,28 @@ class Form extends React.Component {
           <label>
             Napisz coś o tym mieście
             <textarea
+              name="text"
               value={this.state.text}
-              onChange={this.handleOnTextChange}
+              onChange={this.handleChange}
             ></textarea>
           </label>
           <br />
           <label>
             Czy lubisz to miasto?
             <input
+              name="isLoved"
               type="checkbox"
               checked={this.state.isLoved}
-              onChange={this.handleIsLoved}
+              onChange={this.handleChange}
             />
           </label>
           <br />
           <label>
             Ile razy byliście w tym mieście?
             <select
+              name="numerOfVisits"
               value={this.state.numerOfVisits}
-              onChange={this.onVisitNumberChanged.bind(this)}
+              onChange={this.handleChange}
             >
               <option value="0">0</option>
               <option value="1">1</option>
