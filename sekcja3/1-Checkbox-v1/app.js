@@ -1,74 +1,56 @@
-class FortuneTeller extends React.Component {
-  state = {
-    currentFortune: "",
-    newFortune: "",
+const Person = (props) => {
+  return (
+    <li>
+      {props.name} <button onClick={() => props.click(props.id)}>Usuń</button>
+    </li>
+  );
+};
 
-    fortunes: [
+class List extends React.Component {
+  state = {
+    persons: [
+      {
+        id: 0,
+        name: "Jan K.",
+      },
       {
         id: 1,
-        text: "Wróżba nr 1",
+        name: "Piotr C.",
       },
       {
         id: 2,
-        text: "Wróżba nr 2",
+        name: "Marysia W.",
       },
       {
         id: 3,
-        text: "Wróżba nr 3",
+        name: "John S.",
       },
     ],
   };
 
-  handleClick = () => {
-    const { fortunes } = this.state;
-    const number = Math.floor(Math.random() * fortunes.length) + 1;
-    const chosenFortune = fortunes.filter((fortune) => fortune.id === number);
-    const txt = chosenFortune[0].text;
-    this.setState({
-      currentFortune: txt,
-    });
-  };
-
-  handleNewFortune = (e) => {
-    this.setState({
-      newFortune: e.target.value,
-    });
-  };
-
-  handleAddFortune = () => {
-    const newID = this.state.fortunes.length + 1;
-    const newText = this.state.newFortune;
-
-    const newFortune = {
-      id: newID,
-      text: newText,
-    };
+  handleClick = (id) => {
+    const newList = this.state.persons.filter((person) => person.id != id);
 
     this.setState({
-      fortunes: [...this.state.fortunes, newFortune],
-      newFortune: "",
-      currentFortune: "",
+      persons: newList,
     });
   };
 
   render() {
-    const { currentFortune } = this.state;
+    const list = this.state.persons.map((person) => (
+      <Person
+        key={person.id}
+        id={person.id}
+        name={person.name}
+        click={this.handleClick}
+      />
+    ));
     return (
       <>
-        <button onClick={this.handleClick}>Zobacz wróżbę</button>
-        <br />
-        <label>
-          <input
-            type="text"
-            value={this.state.newFortune}
-            onChange={this.handleNewFortune}
-          ></input>
-          <button onClick={this.handleAddFortune}>Dodaj nową wróżbę</button>
-        </label>
-        <h1>{currentFortune}</h1>
+        <ul>{list}</ul>
       </>
     );
   }
 }
 
-ReactDOM.render(<FortuneTeller />, document.getElementById("root"));
+ReactDOM.render(<List />, document.getElementById("root"));
