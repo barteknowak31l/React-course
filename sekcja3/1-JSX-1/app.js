@@ -9,14 +9,17 @@ class Message extends React.Component {
     this.handleMessageButton = this.handleMessageButton.bind(this);
   }
 
+  // użycie setState jako funkji strzełkowej pozwala na poprawne
+  // obsłguiwanie asynchroniczności
   handleMessageButton() {
-    this.setState({
-      messageIsActive: !this.state.messageIsActive,
-    });
+    this.setState((prevState) => ({
+      messageIsActive: !prevState.messageIsActive,
+    }));
   }
 
   render() {
     const text = "Lorem ipsum";
+    debugger;
     return (
       <>
         <button onClick={this.handleMessageButton}>
