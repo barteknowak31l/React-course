@@ -1,40 +1,83 @@
-// projekt:  wirtuale menu restauracji
-// użycie osobnych plików .js dla osobnych komponentów
-
-class App extends React.Component {
+// form demo
+class Form extends React.Component {
   state = {
-    items: [
-      { id: 1, name: "kaczka", active: true },
-      { id: 2, name: "ogórek", active: false },
-      { id: 3, name: "pomidor", active: false },
-      { id: 4, name: "dżem", active: false },
-      { id: 5, name: "chleb", active: false },
-      { id: 6, name: "herbata", active: true },
-    ],
+    city: "Londyn",
+    text: "",
+    isLoved: true,
+    numerOfVisits: 0,
   };
 
-  handleChangeStatus = (id) => {
-    const items = this.state.items.map((item) => {
-      if (id === item.id) {
-        item.active = !item.active;
-      }
-      return item;
-    });
-
+  handleOnCityChange = (e) => {
     this.setState({
-      items,
+      city: e.target.value,
     });
   };
+
+  handleOnTextChange = (e) => {
+    this.setState({
+      text: e.target.value,
+    });
+  };
+
+  handleIsLoved = (e) => {
+    this.setState({
+      isLoved: e.target.checked,
+    });
+  };
+
+  onVisitNumberChanged(e) {
+    this.setState({
+      numerOfVisits: e.target.value,
+    });
+  }
 
   render() {
     return (
       <>
-        <Header items={this.state.items} />
-        <ListItems
-          items={this.state.items}
-          changeStatus={this.handleChangeStatus}
-        />
+        <div>
+          <label>
+            Podaj miasto
+            <input
+              type="text"
+              onChange={this.handleOnCityChange}
+              value={this.state.city}
+            ></input>
+          </label>
+          <br />
+          <label>
+            Napisz coś o tym mieście
+            <textarea
+              value={this.state.text}
+              onChange={this.handleOnTextChange}
+            ></textarea>
+          </label>
+          <br />
+          <label>
+            Czy lubisz to miasto?
+            <input
+              type="checkbox"
+              checked={this.state.isLoved}
+              onChange={this.handleIsLoved}
+            />
+          </label>
+          <br />
+          <label>
+            Ile razy byliście w tym mieście?
+            <select
+              value={this.state.numerOfVisits}
+              onChange={this.onVisitNumberChanged.bind(this)}
+            >
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="more">więcej</option>
+            </select>
+          </label>
+        </div>
       </>
     );
   }
 }
+
+ReactDOM.render(<Form />, document.getElementById("root"));
