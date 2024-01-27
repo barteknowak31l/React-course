@@ -1,71 +1,40 @@
-//const PositiveMessage = () => <p>Możesz obejrzeć film. Zapraszamy</p>;
-//const NegativeMessage = () => <p>Nie możesz obejrzeć tego filmu.</p>;
-
-const ValidationMessage = (props) => {
-  const { txt } = props;
-  return <p>{txt}</p>;
-};
-
-class TicketShop extends React.Component {
+class App extends React.Component {
   state = {
-    isConfirmed: false,
+    availbleProducts: 7,
+    shoppingCart: 0,
   };
 
-  handleCheckboxChange = () => {
+  handleRemoveFromCart = () => {
     this.setState({
-      isConfirmed: !this.state.isConfirmed,
-      isFormSubmitted: false,
+      shoppingCart: this.state.shoppingCart - 1,
     });
   };
 
-  handleFormSubmit = (e) => {
-    e.preventDefault();
-    if (!this.isFormSubmitted) {
-      this.setState({
-        isFormSubmitted: true,
-      });
-    }
-  };
-
-  displayMessage = () => {
-    if (this.state.isFormSubmitted) {
-      if (this.state.isConfirmed) {
-        return <ValidationMessage txt="Możesz obejrzeć film. Zapraszamy" />;
-      } else {
-        return <ValidationMessage txt="Nie możesz obejrzeć tego filmu." />;
-      }
-    } else {
-      return null;
-    }
+  addToCart = () => {
+    this.setState({
+      shoppingCart: this.state.shoppingCart + 1,
+    });
   };
 
   render() {
-    const { isConfirmed, isFormSubmitted } = this.state;
-
     return (
       <>
-        <h1>Kub bilet na horror roku!</h1>
-        <OrderForm
-          change={this.handleCheckboxChange}
-          submit={this.handleFormSubmit}
-          checked={this.state.isConfirmed}
-        />
-        {this.displayMessage()}
+        <button
+          disabled={this.state.shoppingCart ? false : true}
+          onClick={this.handleRemoveFromCart}
+        >
+          -
+        </button>
+        <span> {this.state.shoppingCart} </span>
+        <button
+          disabled={this.state.shoppingCart >= this.state.availbleProducts}
+          onClick={this.addToCart}
+        >
+          +
+        </button>
       </>
     );
   }
 }
 
-const OrderForm = (props) => {
-  const { submit, checked, change } = props;
-  return (
-    <form onSubmit={submit}>
-      <input type="checkbox" onChange={change} id="age" checked={checked} />
-      <label htmlFor="age">Mam co najmniej 16 lat</label>
-      <br />
-      <button type="submit">Kup Bilet</button>
-    </form>
-  );
-};
-
-ReactDOM.render(<TicketShop />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
