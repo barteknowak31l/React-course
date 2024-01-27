@@ -1,56 +1,67 @@
-const Person = (props) => {
-  return (
-    <li>
-      {props.name} <button onClick={() => props.click(props.id)}>Usuń</button>
-    </li>
-  );
-};
+// component lifecycle demo
 
-class List extends React.Component {
+class App extends React.Component {
   state = {
-    persons: [
-      {
-        id: 0,
-        name: "Jan K.",
-      },
-      {
-        id: 1,
-        name: "Piotr C.",
-      },
-      {
-        id: 2,
-        name: "Marysia W.",
-      },
-      {
-        id: 3,
-        name: "John S.",
-      },
-    ],
+    status: true,
   };
 
-  handleClick = (id) => {
-    const newList = this.state.persons.filter((person) => person.id != id);
+  constructor(props) {
+    super(props);
+    this.state = {};
+    console.log("Constructor");
+  }
 
-    this.setState({
-      persons: newList,
-    });
-  };
+  componentDidMount() {
+    console.log("componentDidMount");
+  }
+
+  componentDidUpdate() {
+    console.log("componentDidUpdate");
+  }
 
   render() {
-    const list = this.state.persons.map((person) => (
-      <Person
-        key={person.id}
-        id={person.id}
-        name={person.name}
-        click={this.handleClick}
-      />
-    ));
     return (
       <>
-        <ul>{list}</ul>
+        <button onClick={() => this.setState({ status: !this.state.status })}>
+          Przełącz
+        </button>
+        <Child1 status={this.state.status} />
+        {this.state.status && <Child2 />}
       </>
     );
   }
 }
 
-ReactDOM.render(<List />, document.getElementById("root"));
+class Child1 extends React.Component {
+  componentDidMount() {
+    console.log("child componentDidMount");
+  }
+
+  componentDidUpdate() {
+    console.log("child componentDidUpdate");
+  }
+
+  render() {
+    return <div>{String(this.props.status)}</div>;
+  }
+}
+
+class Child2 extends React.Component {
+  componentDidMount() {
+    console.log("child2 componentDidMount");
+  }
+
+  componentDidUpdate() {
+    console.log("child2 componentDidUpdate");
+  }
+
+  componentWillUnmount() {
+    console.log("child2 odmontowany");
+  }
+
+  render() {
+    return <div>Komponent child2 zamontowany</div>;
+  }
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
