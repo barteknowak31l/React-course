@@ -1,67 +1,42 @@
-// component lifecycle demo
-
-class App extends React.Component {
+class Counter extends React.Component {
   state = {
-    status: true,
+    result: 1,
+    ratio: 2,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-    console.log("Constructor");
-  }
-
-  componentDidMount() {
-    console.log("componentDidMount");
-  }
+  handleClick = () => {
+    this.setState((prevState) => ({
+      result: prevState.result * prevState.ratio,
+    }));
+  };
 
   componentDidUpdate() {
-    console.log("componentDidUpdate");
+    if (this.state.result > 1000 && this.state.ratio === 2) {
+      this.setState({
+        ratio: 0.5,
+      });
+    } else if (this.state.result < 1 && this.state.ratio === 0.5) {
+      this.setState({
+        ratio: 2,
+      });
+    }
   }
 
   render() {
     return (
-      <>
-        <button onClick={() => this.setState({ status: !this.state.status })}>
-          Przełącz
-        </button>
-        <Child1 status={this.state.status} />
-        {this.state.status && <Child2 />}
-      </>
+      <div>
+        <p>
+          Kalkulator mnoży przez dwa, jeśli suma jest mniejsza niż 1000. Po
+          przekroczeniu 1000 kalkulator mnoży przez 0.5 aż osiągnie sumę
+          mniejszą niż 1. Wtedy ponownie zaczyna mnożyć przez 2.
+        </p>
+        <button
+          onClick={this.handleClick}
+        >{`Pomnóż przez ${this.state.ratio}`}</button>
+        <h1>Wynik: {this.state.result}</h1>
+      </div>
     );
   }
 }
 
-class Child1 extends React.Component {
-  componentDidMount() {
-    console.log("child componentDidMount");
-  }
-
-  componentDidUpdate() {
-    console.log("child componentDidUpdate");
-  }
-
-  render() {
-    return <div>{String(this.props.status)}</div>;
-  }
-}
-
-class Child2 extends React.Component {
-  componentDidMount() {
-    console.log("child2 componentDidMount");
-  }
-
-  componentDidUpdate() {
-    console.log("child2 componentDidUpdate");
-  }
-
-  componentWillUnmount() {
-    console.log("child2 odmontowany");
-  }
-
-  render() {
-    return <div>Komponent child2 zamontowany</div>;
-  }
-}
-
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<Counter />, document.getElementById("root"));
