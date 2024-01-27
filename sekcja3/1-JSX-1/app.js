@@ -1,16 +1,27 @@
 // po kliknięciu przycisku dodawana jest litera do tekstu
 
 class App extends React.Component {
-  state = {
-    text: "",
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: "",
+    };
 
-  buttonHandle = () => {
+    this.buttonHandle = this.buttonHandle.bind(this);
+  }
+
+  // metoda z prototypu (trzeba ją zbindować dla każdego obiektu)
+  // można w konstruktorze, można przy każdym wywołaniu, można użyć funkcji strzałkowej (dziedziczy this po elemencie nadrzeędnym)
+  buttonHandle() {
     const letter = "a";
-    this.setState({
+    // this.setState({
+    //   text: this.state.text + letter,
+    // });
+
+    this.setState(() => ({
       text: this.state.text + letter,
-    });
-  };
+    }));
+  }
 
   render() {
     return (
