@@ -26,6 +26,13 @@ class App extends React.Component {
   };
 
   render() {
+    const style =
+      this.state.shoppingCart === 0
+        ? {
+            opacity: 0.3,
+          }
+        : {};
+
     return (
       <>
         <button
@@ -34,7 +41,7 @@ class App extends React.Component {
         >
           -
         </button>
-        <span> {this.state.shoppingCart} </span>
+        <span style={style}> {this.state.shoppingCart} </span>
         <button
           disabled={this.state.shoppingCart >= this.state.availbleProducts}
           onClick={this.addToCart}
