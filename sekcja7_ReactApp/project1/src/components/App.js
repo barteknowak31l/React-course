@@ -1,34 +1,40 @@
+// AJAX demo
+
 import React, { Component } from "react";
 import "./App.css";
+import UsersList from "./UsersList";
+import ButtonFetchUsers from "./ButtonFetchUsers";
+
+const API = "https://randomuser.me/api/?results=5";
 
 class App extends Component {
   state = {
-    users: [],
+    users: null,
   };
 
-  componentDidMount() {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://jsonplaceholder.typicode.com/users", true);
-    xhr.send();
-    xhr.onload = () => {
-      console.log(xhr.status);
-      if (xhr.status === 200) {
-        const users = JSON.parse(xhr.response);
-        this.setState({
-          users,
-        });
-      }
-    };
-  }
+  handleDataFetch = () => {
+    fetch(API)
+      .then((response) => {
+        if (response.ok) {
+          return response;
+        }
+        throw Error(response.status);
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ users: data.results });
+      })
+      .catch((error) => console.log(error));
+  };
 
   render() {
-    const users = this.state.users.map((user) => (
-      <div key={user.id}>
-        <h4>{user.name}</h4>
-        <p>{user.address.city}</p>
-      </div>
-    ));
-    return <div>{users}</div>;
+    const users = this.state.users;
+    return (
+      <>
+        <ButtonFetchUsers click={this.handleDataFetch} />
+        {users && <UsersList users={users} />}
+      </>
+    );
   }
 }
 
