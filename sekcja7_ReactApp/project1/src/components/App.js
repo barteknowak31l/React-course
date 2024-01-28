@@ -25,7 +25,7 @@ class App extends Component {
         const user = data.results;
         this.setState((prevState) => ({
           //users: prevState.users.concat(user),
-          users: [...prevState.users, ...user],
+          users: [...user, ...prevState.users],
         }));
       })
       .catch((error) => console.log(error));
