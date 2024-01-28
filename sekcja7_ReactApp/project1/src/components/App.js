@@ -1,34 +1,34 @@
 import React, { Component } from "react";
-import Word from "./Word";
-
 import "./App.css";
 
 class App extends Component {
   state = {
-    words: [],
-    isLoaded: false,
+    users: [],
   };
 
   componentDidMount() {
-    setTimeout(this.fetchData, 3000);
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://jsonplaceholder.typicode.com/users", true);
+    xhr.send();
+    xhr.onload = () => {
+      console.log(xhr.status);
+      if (xhr.status === 200) {
+        const users = JSON.parse(xhr.response);
+        this.setState({
+          users,
+        });
+      }
+    };
   }
 
-  fetchData = () => {
-    fetch("data/words.json")
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({
-          words: data.words,
-          isLoaded: true,
-        });
-      });
-  };
-
   render() {
-    const words = this.state.words.map((word) => (
-      <Word key={word.id} english={word.en} polish={word.pl} />
+    const users = this.state.users.map((user) => (
+      <div key={user.id}>
+        <h4>{user.name}</h4>
+        <p>{user.address.city}</p>
+      </div>
     ));
-    return <ul>{this.state.isLoaded ? words : "wczytuję dane"}</ul>;
+    return <div>{users}</div>;
   }
 }
 
